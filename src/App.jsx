@@ -17,6 +17,15 @@ function App() {
     loadTodos();
   }, [useMockApi]); // Recargar cuando cambie el modo de API
 
+  // Loader global
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <span className="text-xl font-semibold">Cargando tareas...</span>
+      </div>
+    );
+  }
+
   return (
     <MainLayout 
       loading={loading}
