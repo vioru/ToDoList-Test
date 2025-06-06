@@ -23,7 +23,7 @@ import {
 import { useStore } from '../../store/todoStore';
 
 const Sidebar = ({ }) => {
-  const todos = useStore(state => state.todos || []);
+  const todos = useStore(state => state.todos);
   const currentFilter = useStore(state => state.filter);
   const setFilter = useStore(state => state.setFilter);
   const users = useStore(state => state.users);
@@ -32,14 +32,14 @@ const Sidebar = ({ }) => {
   const selectedUser = users.find(u => u.id === selectedUserId);
 
 
-  const filteredTodos = selectedUserId
+  const filteredByUser = selectedUserId 
     ? todos.filter(todo => todo.userId === selectedUserId)
     : todos;
 
   const stats = {
-    completed: filteredTodos.filter(todo => todo.completed).length,
-    active: filteredTodos.filter(todo => !todo.completed).length,
-    total: filteredTodos.length
+    total: filteredByUser.length,
+    completed: filteredByUser.filter(todo => todo.completed).length,
+    active: filteredByUser.filter(todo => !todo.completed).length
   };
 
   const filters = [
@@ -89,6 +89,8 @@ const Sidebar = ({ }) => {
               backgroundColor: 'transparent',
               color: 'text.primary',
               boxShadow: 'none',
+              p: 0,
+              my: 1,
               '&:hover': { backgroundColor: 'transparent', boxShadow: 'none' },
               textTransform: 'none',
               textDecoration: 'underline',
@@ -101,7 +103,7 @@ const Sidebar = ({ }) => {
             Borrar filtros
           </Button>
           <div>
-            <Typography variant="overline" color="text.secondary">
+            <Typography variant="overline" color="text.primary" sx={{ textTransform: 'none' ,fontWeight: 'bold', fontSize:'1rem'}}>
               Resumen de Tareas
               {selectedUserId && (
                 <Typography variant="caption" display="block" color="text.secondary">
@@ -113,7 +115,6 @@ const Sidebar = ({ }) => {
               display: 'flex',
               justifyContent: 'space-between',
               mt: 1,
-              p: 2,
               bgcolor: 'background.paper',
               borderRadius: 1
             }}>
@@ -135,7 +136,7 @@ const Sidebar = ({ }) => {
       <Divider />
 
       <Box sx={{ p: 3 }}>
-        <Typography variant="overline" color="text.secondary" gutterBottom sx={{ textTransform: 'none' }}>
+        <Typography variant="overline" color="text.primary" gutterBottom sx={{ textTransform: 'none',fontWeight: 'bold', fontSize:'1rem' }}>
           Filtrar por Usuario
         </Typography>
         <FormControl fullWidth size="small">
@@ -143,6 +144,7 @@ const Sidebar = ({ }) => {
             value={selectedUserId ?? ''}
             onChange={e => {
               const value = e.target.value;
+              setFilter('all');
               setSelectedUserId(value === '' ? null : Number(value));
             }}
             displayEmpty

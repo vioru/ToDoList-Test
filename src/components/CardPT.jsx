@@ -41,6 +41,7 @@ const CardPT = ({ todo }) => {
       <MuiCard
         onClick={() => setIsDetailModalOpen(true)}
         sx={{
+          borderRadius: 5,
           height: '100%',
           minHeight: 150,
           maxHeight: 200,
@@ -58,18 +59,21 @@ const CardPT = ({ todo }) => {
         <CardContent sx={{ flex: 1, p: 2 }}>
           <Box display="flex" alignItems="flex-start" justifyContent="space-between">
             <Box display="flex" alignItems="center" gap={1} flex={1}>
-              <Checkbox
-                checked={todo.completed}
-                onChange={(e) => {
+              <Box
+                onClick={(e) => {
                   e.stopPropagation();
-                  toggleTodo(todo.id);
                 }}
-                sx={{
-                  '&.Mui-checked': {
-                    color: 'success.main',
-                  }
-                }}
-              />
+              >
+                <Checkbox
+                  checked={todo.completed}
+                  onChange={() => toggleTodo(todo.id)}
+                  sx={{
+                    '&.Mui-checked': {
+                      color: 'success.main',
+                    }
+                  }}
+                />
+              </Box>
               <Box sx={{ flex: 1, minWidth: 0 }}>
                 <Typography
                   variant="h6"
@@ -138,7 +142,7 @@ const CardPT = ({ todo }) => {
         </CardContent>
       </MuiCard>
 
-      {/* Modal de detalles */}
+      {/* Modal de detalles de la tarea*/}
       <TodoDetailModal
         open={isDetailModalOpen}
         onClose={() => setIsDetailModalOpen(false)}

@@ -8,7 +8,12 @@ export const useTodos = () => {
   const [error, setError] = useState(null);
   const [useMockApi, setUseMockApi] = useState(false);
   
-  const { setTodos, addTodo: addTodoToStore, removeTodo, toggleTodo: toggleTodoInStore } = useStore();
+  const { 
+    addTodo: addTodoToStore, 
+    removeTodo, 
+    toggleTodo: toggleTodoInStore,
+    updateTodo: updateTodoInStore 
+  } = useStore();
   
 
   const getService = () => useMockApi ? mockTodoService : todoService;
@@ -35,16 +40,14 @@ export const useTodos = () => {
       const todosData = await service.getAllTodos();
       console.log('Todos fetched:', todosData);
       
-      
- 
       const transformedTodos = todosData.map(todo => ({
         id: todo.id,
-        title: todo.title ,
+        title: todo.title,
         completed: todo.completed,
         userId: todo.userId
       }));
-      
-      setTodos(transformedTodos);
+
+      useStore.setState({ todos: transformedTodos });
     } catch (error) {
       handleError(error);
     } finally {

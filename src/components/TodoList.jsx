@@ -5,52 +5,16 @@ import CardPT from './CardPT';
 import Pagination from './Pagination';
 
 const TodoList = () => {
-  const todos = useStore((state) => state.todos || []);
-  const filter = useStore((state) => state.filter);
-  const searchQuery = useStore((state) => state.searchQuery || '');
-  const selectedCategory = useStore((state) => state.selectedCategory);
+  const getFilteredTodos = useStore((state) => state.getFilteredTodos);
   const selectedUserId = useStore((state) => state.selectedUserId);
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-
-  const filteredTodos = todos.filter((todo) => {
-
-    const matchesSearch = !searchQuery || searchQuery.trim() === '' ||
-
-      todo.title?.toLowerCase().includes(searchQuery.toLowerCase());
-
-
-    const matchesCategory = !selectedCategory || selectedCategory === 'all' || todo.category === selectedCategory;
-
-
-    const matchesUser = !selectedUserId || todo.userId === selectedUserId;
-
-
-    let matchesFilter = true;
-    if (filter === 'completed') matchesFilter = todo.completed;
-    if (filter === 'active') matchesFilter = !todo.completed;
-
-    return matchesSearch && matchesCategory && matchesUser && matchesFilter;
-  });
-
-
+  const filteredTodos = getFilteredTodos();
 
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedUserId]);
-
-
-  const setFilter = useStore((state) => state.setFilter);
-  const setSelectedCategory = useStore((state) => state.setSelectedCategory);
-
-  useEffect(() => {
-    if (selectedUserId) {
-      setFilter('all');
-      setSelectedCategory('all');
-    }
-  }, [selectedUserId, setFilter, setSelectedCategory]);
 
   const indexOfLastTodo = currentPage * itemsPerPage;
   const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;

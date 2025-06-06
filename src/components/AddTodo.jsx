@@ -26,7 +26,7 @@ const AddTodo = ({ editMode = false, todoData = null, onSubmitSuccess }) => {
   const updateTodo = useStore(state => state.updateTodo);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
+  const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       text: '',
@@ -35,10 +35,13 @@ const AddTodo = ({ editMode = false, todoData = null, onSubmitSuccess }) => {
     }
   });
 
+  
+  const currentUserId = watch('userId');
+
   useEffect(() => {
     if (editMode && todoData) {
       setValue('text', todoData.title || todoData.text);
-      setValue('userId', todoData.userId);
+      setValue('userId', Number(todoData.userId));
       setValue('priority', todoData.priority || 'medium');
     }
   }, [editMode, todoData, setValue]);
@@ -49,14 +52,12 @@ const AddTodo = ({ editMode = false, todoData = null, onSubmitSuccess }) => {
       if (editMode && todoData) {
         await updateTodo(todoData.id, {
           title: data.text,
-          userId: Number(data.userId),
-          priority: data.priority
-        });
+          userId: Number(data.userId),      
+          });
       } else {
         await addTodo({
           title: data.text,
           userId: Number(data.userId),
-          priority: data.priority,
           completed: false,
           createdAt: new Date().toISOString()
         });
@@ -87,6 +88,7 @@ const AddTodo = ({ editMode = false, todoData = null, onSubmitSuccess }) => {
           {...register('userId')}
           label="Asignar a"
           disabled={isSubmitting}
+          value={currentUserId || ''} 
         >
           {users.map(user => (
             <MenuItem key={user.id} value={user.id}>
@@ -96,18 +98,6 @@ const AddTodo = ({ editMode = false, todoData = null, onSubmitSuccess }) => {
         </Select>
       </FormControl>
 
-      <FormControl fullWidth>
-        <InputLabel>Prioridad</InputLabel>
-        <Select
-          {...register('priority')}
-          label="Prioridad"
-          disabled={isSubmitting}
-        >
-          <MenuItem value="high">Alta</MenuItem>
-          <MenuItem value="medium">Media</MenuItem>
-          <MenuItem value="low">Baja</MenuItem>
-        </Select>
-      </FormControl>
 
       <Button
         type="submit"
