@@ -23,23 +23,23 @@ const CardTodoItem = ({ todo }) => {
     mode: 'detail',
     todoData: null
   });
-  
+
   const users = useStore(state => state.users);
   const toggleTodo = useStore(state => state.updateTodo);
   const removeTodo = useStore(state => state.removeTodo);
 
-  const userName = useMemo(() => 
-    getUserName(users, todo.userId), 
+  const userName = useMemo(() =>
+    getUserName(users, todo.userId),
     [users, todo.userId]
   );
 
-const handleToggle = (e) => {    
-     console.log("estoy en check box", todo.completed);
-  e.stopPropagation();
-  toggleTodo(todo.id, {
-    completed: !todo.completed  
-  });
-};
+  const handleToggle = (e) => {
+    console.log("estoy en check box", todo.completed);
+
+    toggleTodo(todo.id, {
+      completed: !todo.completed
+    });
+  };
 
   const handleRemove = async (e) => {
     e.stopPropagation();
@@ -93,43 +93,39 @@ const handleToggle = (e) => {
       >
         <CardContent sx={{ flex: 1, p: 2 }}>
           <Box display="flex" alignItems="flex-start" justifyContent="space-between">
-            <Box display="flex" alignItems="center" gap={1} flex={1}>
-              <Box
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <Checkbox
-                  checked={todo.completed}
-                  onChange={handleToggle}
-                  sx={{
-                    '&.Mui-checked': {
-                      color: 'success.main',
-                    }
-                  }}
-                />
-              </Box>
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    textDecoration: todo.completed ? 'line-through' : 'none',
-                    color: todo.completed ? 'text.secondary' : 'text.primary',
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    mb: 0.5,
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    lineHeight: 1.2,
-                  }}
-                >
-                  {todo.title}
-                </Typography>
-              </Box>
-            </Box>
+ <Box display="flex" alignItems="center" gap={1} flex={1}>
+  {/* Remover el Box wrapper del Checkbox */}
+  <Checkbox
+    checked={todo.completed}
+    onChange={handleToggle}
+    onClick={(e) => e.stopPropagation()} // Mover stopPropagation aquí
+    sx={{
+      '&.Mui-checked': {
+        color: 'success.main',
+      }
+    }}
+  />
+  <Box sx={{ flex: 1, minWidth: 0 }}>
+    <Typography
+      variant="h6"
+      sx={{
+        textDecoration: todo.completed ? 'line-through' : 'none',
+        color: todo.completed ? 'text.secondary' : 'text.primary',
+        fontSize: '1rem',
+        fontWeight: 500,
+        mb: 0.5,
+        display: '-webkit-box',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        lineHeight: 1.2,
+      }}
+    >
+      {todo.title}
+    </Typography>
+  </Box>
+</Box>
             <Box display="flex" gap={1}>
               <IconButton
                 size="small"
@@ -151,8 +147,8 @@ const handleToggle = (e) => {
           <Box mt={2} display="flex" justifyContent="space-between" alignItems="center" width="100%" gap={1}>
             <Box display="flex" alignItems="center" gap={1}>
               <PersonIcon fontSize="small" sx={{ color: 'text.secondary' }} />
-              <Typography 
-                variant="caption" 
+              <Typography
+                variant="caption"
                 color="text.secondary"
                 sx={{
                   maxWidth: 150,

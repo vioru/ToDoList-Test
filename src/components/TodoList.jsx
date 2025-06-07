@@ -1,21 +1,22 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Typography, Box } from '@mui/material';
 import { useStore } from '../store/todoStore';
-import CardPT from './CardTodoItem';
 import Pagination from './Pagination';
+import CardTodoItem from './CardTodoItem';
 
 const TodoList = () => {
   const getFilteredTodos = useStore((state) => state.getFilteredTodos);
   const selectedUserId = useStore((state) => state.selectedUserId);
-  const filter = useStore((state) => state.filter); // Añadir esta línea
-  const searchQuery = useStore((state) => state.searchQuery); // Añadir esta línea
+  const filter = useStore((state) => state.filter);
+  const searchQuery = useStore((state) => state.searchQuery);
+  const todos = useStore((state) => state.todos); // Agregar esta línea
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
   // Memoizar los todos filtrados para evitar recálculos innecesarios
-  const filteredTodos = useMemo(
+ const filteredTodos = useMemo(
     () => getFilteredTodos(),
-    [getFilteredTodos, filter, selectedUserId, searchQuery] // Dependencias clave
+    [getFilteredTodos, filter, selectedUserId, searchQuery, todos] // Agregar todos aquí
   );
 
   // Reset página cuando cambien los filtros
@@ -51,7 +52,7 @@ const TodoList = () => {
               key={todo.id}
               className="h-full transition-all hover:-translate-y-1 duration-200"
             >
-              <CardPT todo={todo} />
+              <CardTodoItem todo={todo} />
             </div>
           ))}
         </div>
