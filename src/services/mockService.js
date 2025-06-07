@@ -1,18 +1,18 @@
-// Mock service para simular API cuando no hay conexión
+
 class MockTodoService {
   constructor() {
     this.todos = this.getStoredTodos();
     this.nextId = Math.max(...this.todos.map(t => t.id), 0) + 1;
   }
 
-  // Obtener todos del localStorage
+
   getStoredTodos() {
     const stored = localStorage.getItem('mock-todos');
     if (stored) {
       return JSON.parse(stored);
     }
     
-    // Datos iniciales si no hay nada en localStorage
+
     return [
       {
         id: 1,

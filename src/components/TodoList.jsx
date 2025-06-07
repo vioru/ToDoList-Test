@@ -9,17 +9,17 @@ const TodoList = () => {
   const selectedUserId = useStore((state) => state.selectedUserId);
   const filter = useStore((state) => state.filter);
   const searchQuery = useStore((state) => state.searchQuery);
-  const todos = useStore((state) => state.todos); // Agregar esta línea
+  const todos = useStore((state) => state.todos); 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  // Memoizar los todos filtrados para evitar recálculos innecesarios
+
  const filteredTodos = useMemo(
     () => getFilteredTodos(),
-    [getFilteredTodos, filter, selectedUserId, searchQuery, todos] // Agregar todos aquí
+    [getFilteredTodos, filter, selectedUserId, searchQuery, todos]
   );
 
-  // Reset página cuando cambien los filtros
+
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedUserId, filter, searchQuery]);

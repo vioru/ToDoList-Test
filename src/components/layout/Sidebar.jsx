@@ -1,30 +1,16 @@
 import {
   Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Divider,
   Box,
   Typography,
-  Badge,
-  ListItemButton,
-  Select,
-  MenuItem,
-  FormControl,
   Button,
 } from '@mui/material';
-import {
-  Dashboard,
-  CheckCircle,
-  Schedule,
-  Person
-} from '@mui/icons-material';
 import { useStore } from '../../store/todoStore';
+import FilterButtons from '../filters/FilterButtons';
+import SelectUSers from '../filters/SelectUsers';
 
 const Sidebar = ({ }) => {
   const todos = useStore(state => state.todos);
-  const currentFilter = useStore(state => state.filter);
   const setFilter = useStore(state => state.setFilter);
   const users = useStore(state => state.users);
   const selectedUserId = useStore(state => state.selectedUserId);
@@ -32,7 +18,7 @@ const Sidebar = ({ }) => {
   const selectedUser = users.find(u => u.id === selectedUserId);
 
 
-  const filteredByUser = selectedUserId 
+  const filteredByUser = selectedUserId
     ? todos.filter(todo => todo.userId === selectedUserId)
     : todos;
 
@@ -42,29 +28,6 @@ const Sidebar = ({ }) => {
     active: filteredByUser.filter(todo => !todo.completed).length
   };
 
-  const filters = [
-    {
-      id: 'all',
-      label: 'Todas las tareas',
-      icon: <Dashboard />,
-      count: stats.total,
-      color: 'primary'
-    },
-    {
-      id: 'active',
-      label: 'Pendientes',
-      icon: <Schedule />,
-      count: stats.active,
-      color: 'warning'
-    },
-    {
-      id: 'completed',
-      label: 'Completadas',
-      icon: <CheckCircle />,
-      count: stats.completed,
-      color: 'success'
-    }
-  ];
 
   return (
     <Drawer
@@ -99,11 +62,11 @@ const Sidebar = ({ }) => {
               setFilter('all');
               setSelectedUserId(null);
             }}
-            >
+          >
             Borrar filtros
           </Button>
           <div>
-            <Typography variant="overline" color="text.primary" sx={{ textTransform: 'none' ,fontWeight: 'bold', fontSize:'1rem'}}>
+            <Typography variant="overline" color="text.primary" sx={{ textTransform: 'none', fontWeight: 'bold', fontSize: '1rem' }}>
               Resumen de Tareas
               {selectedUserId && (
                 <Typography variant="caption" display="block" color="text.secondary">
@@ -134,102 +97,10 @@ const Sidebar = ({ }) => {
       </Box>
 
       <Divider />
-
-      <Box sx={{ p: 3 }}>
-        <Typography variant="overline" color="text.primary" gutterBottom sx={{ textTransform: 'none',fontWeight: 'bold', fontSize:'1rem' }}>
-          Filtrar por Usuario
-        </Typography>
-        <FormControl fullWidth size="small">
-          <Select
-            value={selectedUserId ?? ''}
-            onChange={e => {
-              const value = e.target.value;
-              setFilter('all');
-              setSelectedUserId(value === '' ? null : Number(value));
-            }}
-            displayEmpty
-            sx={{
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderRadius: '25px'
-              }
-            }}
-          >
-            <MenuItem value="">Todos los usuarios</MenuItem>
-            {users.map(user => (
-              <MenuItem key={user.id} value={user.id}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Person fontSize="small" />
-                  {user.name}
-                </Box>
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-
+      <SelectUSers />
 
       <Divider />
-
-      <List sx={{ px: 2 }}>
-        {filters.map(({ id, label, icon, count, color }) => (
-          <ListItem key={id} disablePadding>
-            <ListItemButton
-              selected={currentFilter === id}
-              onClick={() => setFilter(id)}
-              sx={{
-                borderRadius: 25,
-                m: 1,
-                py: 1.5,
-                px: 2,
-                display: 'flex',
-                alignItems: 'center',
-                '&.Mui-selected': {
-                  bgcolor: `${color}.lighter`,
-                  '&:hover': {
-                    bgcolor: `${color}.light`,
-
-                  },
-                },
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  color: `${color}.main`,
-                  minWidth: '40px',
-                  '& .MuiSvgIcon-root': {
-                    fontSize: '1.25rem'
-                  }
-                }}
-              >
-                {icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={label}
-                sx={{
-                  flex: '1 1 auto',
-                  '& .MuiTypography-root': {
-                    fontSize: '0.875rem',
-                  }
-                }}
-              />
-              <Badge
-                badgeContent={count}
-                color={color}
-                sx={{
-                  
-                  '& .MuiBadge-badge': {
-                    minWidth: '40px',
-                    height: '24px',
-                    padding: '0 8px',
-                    right: 20,
-                    borderRadius: '12px',
-                  }
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <FilterButtons />
 
 
     </Drawer>

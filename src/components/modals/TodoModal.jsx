@@ -63,7 +63,6 @@ TodoModal.propTypes = {
     text: PropTypes.string,
     completed: PropTypes.bool,
     userId: PropTypes.number,
-    createdAt: PropTypes.string
   })
 };
 

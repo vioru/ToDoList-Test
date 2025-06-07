@@ -191,7 +191,6 @@ CardTodoItem.propTypes = {
     title: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
     userId: PropTypes.number.isRequired,
-    createdAt: PropTypes.string
   }).isRequired
 };
 

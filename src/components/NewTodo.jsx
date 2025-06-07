@@ -31,11 +31,11 @@ const schema = yup.object({
     .required('El usuario es obligatorio'),
 }).required();
 
-
 const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess , onClose}) => {
   const users = useStore(state => state.users);
   const addTodo = useStore(state => state.addTodo);
   const updateTodo = useStore(state => state.updateTodo);
+  const operationLoading = useStore(state => state.operationLoading); 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm({
@@ -45,7 +45,6 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess , onClose}
       userId: '',
     }
   });
-
 
   const currentUserId = watch('userId');
 
@@ -74,7 +73,6 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess , onClose}
         });
       }
 
-
       reset();
       if (onSubmitSuccess) {
         setTimeout(() => {
@@ -88,11 +86,13 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess , onClose}
     }
   };
 
+
+  const isLoading = isSubmitting || operationLoading;
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <Box display="flex" justifyContent={"space-between"} alignItems="center" mb={2}>
-
-          <Typography
+      <Box display="flex" justifyContent={"space-between"} alignItems="center" mb={2}>
+        <Typography
           variant="h6" 
           component="h2" 
           sx={{ mb: 2 }}
@@ -103,13 +103,14 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess , onClose}
           <CloseRounded />
         </Button>
       </Box>
+      
       <TextField
         {...register('text')}
         label="Título de la tarea"
         error={!!errors.text}
         helperText={errors.text?.message}
         fullWidth
-        disabled={isSubmitting}
+        disabled={isLoading}
         InputProps={{
           sx: {
             borderRadius: 4,
@@ -117,19 +118,14 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess , onClose}
         }}
       />
 
-
-      <FormControl fullWidth error={!!errors.userId}
-        helperText={errors.text?.message}>
+      <FormControl fullWidth error={!!errors.userId}>
         <InputLabel>Asignar a</InputLabel>
         <Select
-
-         
           {...register('userId')}
           label="Asignar a"
-          disabled={isSubmitting}
+          disabled={isLoading}
           value={currentUserId || ''}
           sx={{ borderRadius: 4, }}
-      
         >
           {users.map(user => (
             <MenuItem key={user.id} value={user.id}>
@@ -137,22 +133,20 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess , onClose}
             </MenuItem>
           ))}
         </Select>
- {errors.userId && (
-    <FormHelperText>{errors.userId.message}</FormHelperText>
-  )}
-        
+        {errors.userId && (
+          <FormHelperText>{errors.userId.message}</FormHelperText>
+        )}
       </FormControl>
-
 
       <Button
         type="submit"
         variant="contained"
         fullWidth
-        disabled={isSubmitting}
-        startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
+        disabled={isLoading}
+        startIcon={isLoading ? <CircularProgress size={20} /> : null}
         sx={{ mt: 2, borderRadius: 6, textTransform: 'none', }}
       >
-        {isSubmitting
+        {isLoading
           ? 'Guardando...'
           : editMode ? 'Guardar Cambios' : 'Crear nueva tarea'
         }
@@ -164,7 +158,8 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess , onClose}
 NewTodo.propTypes = {
   editMode: PropTypes.bool,
   todoData: PropTypes.object,
-  onSubmitSuccess: PropTypes.func
+  onSubmitSuccess: PropTypes.func,
+  onClose: PropTypes.func.isRequired
 };
 
 export default NewTodo;
