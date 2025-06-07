@@ -47,9 +47,9 @@ const Sidebar = ({ }) => {
       <Box sx={{ p: 3 }}>
         <div>
 
-            <Typography variant="h4">
-                TaskFlow
-              </Typography>
+          <Typography variant="h4">
+            TaskFlow
+          </Typography>
           <Button variant="contained"
             sx={{
               borderRadius: '25px',
