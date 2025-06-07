@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Typography, Box } from '@mui/material';
 import { useStore } from '../store/todoStore';
 import CardPT from './CardTodoItem';
@@ -7,14 +7,21 @@ import Pagination from './Pagination';
 const TodoList = () => {
   const getFilteredTodos = useStore((state) => state.getFilteredTodos);
   const selectedUserId = useStore((state) => state.selectedUserId);
+  const filter = useStore((state) => state.filter); // Añadir esta línea
+  const searchQuery = useStore((state) => state.searchQuery); // Añadir esta línea
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const filteredTodos = getFilteredTodos();
+  // Memoizar los todos filtrados para evitar recálculos innecesarios
+  const filteredTodos = useMemo(
+    () => getFilteredTodos(),
+    [getFilteredTodos, filter, selectedUserId, searchQuery] // Dependencias clave
+  );
 
+  // Reset página cuando cambien los filtros
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedUserId]);
+  }, [selectedUserId, filter, searchQuery]);
 
   const indexOfLastTodo = currentPage * itemsPerPage;
   const indexOfFirstTodo = indexOfLastTodo - itemsPerPage;

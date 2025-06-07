@@ -77,17 +77,21 @@ export const useStore = create(
       },
 
       updateTodo: async (id, updates) => {
-        set({ loading: true, error: null });
         try {
-          set((state) => ({
-            todos: state.todos.map(todo => 
+          set((state) => {
+            // Crear una nueva referencia del array para forzar la actualización
+            const newTodos = state.todos.map(todo => 
               todo.id === id ? { ...todo, ...updates } : todo
-            ),
-            loading: false,
-            initialized: true
-          }));
+            );
+
+            return {
+              todos: newTodos,
+              error: null
+            };
+          });
         } catch (error) {
-          set({ error: error.message, loading: false });
+          console.error('Error updating todo:', error);
+          set({ error: error.message });
         }
       },
 
@@ -96,8 +100,7 @@ export const useStore = create(
         try {
           set((state) => ({
             todos: state.todos.filter(todo => todo.id !== id),
-            loading: false,
-            initialized: true
+            loading: false
           }));
         } catch (error) {
           set({ error: error.message, loading: false });
@@ -154,17 +157,7 @@ export const useStore = create(
     }),
     {
       name: 'todo-storage',
-      storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        // Especificar exactamente qué queremos persistir
-        todos: state.todos,
-        filter: state.filter,
-        searchQuery: state.searchQuery,
-        selectedCategory: state.selectedCategory,
-        selectedUserId: state.selectedUserId,
-        users: state.users,
-        initialized: state.initialized
-      }),
+      storage: createJSONStorage(() => localStorage)
     }
   )
 );

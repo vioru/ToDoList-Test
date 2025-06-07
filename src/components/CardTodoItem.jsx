@@ -25,13 +25,26 @@ const CardTodoItem = ({ todo }) => {
   });
   
   const users = useStore(state => state.users);
-  const toggleTodo = useStore(state => state.toggleTodo);
+  const toggleTodo = useStore(state => state.updateTodo);
   const removeTodo = useStore(state => state.removeTodo);
 
   const userName = useMemo(() => 
     getUserName(users, todo.userId), 
     [users, todo.userId]
   );
+
+const handleToggle = (e) => {    
+     console.log("estoy en check box", todo.completed);
+  e.stopPropagation();
+  toggleTodo(todo.id, {
+    completed: !todo.completed  
+  });
+};
+
+  const handleRemove = async (e) => {
+    e.stopPropagation();
+    await removeTodo(todo.id);
+  };
 
   const handleEdit = (e) => {
     e.stopPropagation();
@@ -88,10 +101,7 @@ const CardTodoItem = ({ todo }) => {
               >
                 <Checkbox
                   checked={todo.completed}
-                  onChange={(e) => {
-                    e.stopPropagation();
-                    toggleTodo(todo.id);
-                  }}
+                  onChange={handleToggle}
                   sx={{
                     '&.Mui-checked': {
                       color: 'success.main',
@@ -130,10 +140,7 @@ const CardTodoItem = ({ todo }) => {
               </IconButton>
               <IconButton
                 size="small"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeTodo(todo.id);
-                }}
+                onClick={handleRemove}
                 sx={{ color: 'error.main' }}
               >
                 <DeleteIcon fontSize="small" />

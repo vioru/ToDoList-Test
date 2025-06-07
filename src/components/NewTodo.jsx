@@ -52,18 +52,28 @@ const AddTodo = ({ editMode = false, todoData = null, onSubmitSuccess }) => {
       if (editMode && todoData) {
         await updateTodo(todoData.id, {
           title: data.text,
-          userId: Number(data.userId),      
-          });
+          userId: Number(data.userId),
+          priority: data.priority,
+          updatedAt: new Date().toISOString() // Forzar actualización
+        });
       } else {
         await addTodo({
           title: data.text,
           userId: Number(data.userId),
+          priority: data.priority,
           completed: false,
           createdAt: new Date().toISOString()
         });
       }
+      
+      // Asegurarnos que el form se resetee y se cierre el modal
       reset();
-      if (onSubmitSuccess) onSubmitSuccess();
+      if (onSubmitSuccess) {
+        // Pequeño delay para asegurar que el estado se actualice
+        setTimeout(() => {
+          onSubmitSuccess();
+        }, 100);
+      }
     } catch (error) {
       console.error('Error:', error);
     } finally {
