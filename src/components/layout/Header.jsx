@@ -22,7 +22,7 @@ const Header = ({ onAddClick }) => {
               borderRadius: '9999px',
               textTransform: 'none',
               px: 4,
-              py: 2,
+              py: 1,
             }}
           >
             Nueva Tarea

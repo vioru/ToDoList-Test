@@ -17,6 +17,7 @@ import {
 import { useStore, getUserName } from '../store/todoStore';
 import TodoModal from './modals/TodoModal';
 
+
 const CardTodoItem = ({ todo }) => {
   const [modalConfig, setModalConfig] = useState({
     open: false,
@@ -41,9 +42,13 @@ const CardTodoItem = ({ todo }) => {
     });
   };
 
-  const handleRemove = async (e) => {
+  const handleOpenRemove = async (e) => {
     e.stopPropagation();
-    await removeTodo(todo.id);
+    setModalConfig({
+      open: true,
+      mode: 'delete',
+      todoData: todo
+    });
   };
 
   const handleEdit = (e) => {
@@ -93,39 +98,38 @@ const CardTodoItem = ({ todo }) => {
       >
         <CardContent sx={{ flex: 1, p: 2 }}>
           <Box display="flex" alignItems="flex-start" justifyContent="space-between">
- <Box display="flex" alignItems="center" gap={1} flex={1}>
-  {/* Remover el Box wrapper del Checkbox */}
-  <Checkbox
-    checked={todo.completed}
-    onChange={handleToggle}
-    onClick={(e) => e.stopPropagation()} // Mover stopPropagation aquí
-    sx={{
-      '&.Mui-checked': {
-        color: 'success.main',
-      }
-    }}
-  />
-  <Box sx={{ flex: 1, minWidth: 0 }}>
-    <Typography
-      variant="h6"
-      sx={{
-        textDecoration: todo.completed ? 'line-through' : 'none',
-        color: todo.completed ? 'text.secondary' : 'text.primary',
-        fontSize: '1rem',
-        fontWeight: 500,
-        mb: 0.5,
-        display: '-webkit-box',
-        WebkitLineClamp: 2,
-        WebkitBoxOrient: 'vertical',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        lineHeight: 1.2,
-      }}
-    >
-      {todo.title}
-    </Typography>
-  </Box>
-</Box>
+            <Box display="flex" alignItems="center" gap={1} flex={1}>
+              <Checkbox
+                checked={todo.completed}
+                onChange={handleToggle}
+                onClick={(e) => e.stopPropagation()}
+                sx={{
+                  '&.Mui-checked': {
+                    color: 'success.main',
+                  }
+                }}
+              />
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    textDecoration: todo.completed ? 'line-through' : 'none',
+                    color: todo.completed ? 'text.secondary' : 'text.primary',
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    mb: 0.5,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {todo.title}
+                </Typography>
+              </Box>
+            </Box>
             <Box display="flex" gap={1}>
               <IconButton
                 size="small"
@@ -136,7 +140,7 @@ const CardTodoItem = ({ todo }) => {
               </IconButton>
               <IconButton
                 size="small"
-                onClick={handleRemove}
+                onClick={handleOpenRemove}
                 sx={{ color: 'error.main' }}
               >
                 <DeleteIcon fontSize="small" />
@@ -170,7 +174,7 @@ const CardTodoItem = ({ todo }) => {
         </CardContent>
       </MuiCard>
 
-      {/* Modal unificado */}
+
       <TodoModal
         open={modalConfig.open}
         onClose={closeModal}
@@ -187,8 +191,6 @@ CardTodoItem.propTypes = {
     title: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
     userId: PropTypes.number.isRequired,
-    category: PropTypes.string,
-    priority: PropTypes.string,
     createdAt: PropTypes.string
   }).isRequired
 };

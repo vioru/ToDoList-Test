@@ -37,14 +37,12 @@ export const useStore = create(
       error: null,
       filter: 'all',
       searchQuery: '',
-      selectedCategory: 'all',
       selectedUserId: null,
       users: mockUsers,
       initialized: false,
 
 
       fetchTodos: async () => {
-        // Solo hacer fetch si no hay datos o si no está inicializado
         const state = get();
         if (state.todos.length === 0 || !state.initialized) {
           set({ loading: true, error: null });
@@ -61,7 +59,6 @@ export const useStore = create(
         }
       },
 
-      // Modificar las otras acciones para mantener initialized
       addTodo: async (todoData) => {
         set({ loading: true, error: null });
         try {
@@ -79,7 +76,6 @@ export const useStore = create(
       updateTodo: async (id, updates) => {
         try {
           set((state) => {
-            // Crear una nueva referencia del array para forzar la actualización
             const newTodos = state.todos.map(todo => 
               todo.id === id ? { ...todo, ...updates } : todo
             );
@@ -115,30 +111,20 @@ export const useStore = create(
           filter, 
           searchQuery, 
           selectedUserId, 
-          selectedCategory 
         } = state;
 
         return todos.filter((todo) => {
-          // 1. Filtrar por búsqueda
           const matchesSearch = !searchQuery || 
             todo.title?.toLowerCase().includes(searchQuery.toLowerCase());
 
-          // 2. Filtrar por usuario seleccionado
           const matchesUser = !selectedUserId || 
             todo.userId === selectedUserId;
 
-          // 3. Filtrar por categoría
-          const matchesCategory = selectedCategory === 'all' || 
-            todo.category === selectedCategory;
-
-          // 4. Filtrar por estado (completada/pendiente)
           const matchesStatus = filter === 'all' ? true :
             filter === 'completed' ? todo.completed : !todo.completed;
 
-          // Aplicar todos los filtros en conjunto
           return matchesSearch && 
                  matchesUser && 
-                 matchesCategory && 
                  matchesStatus;
         });
       },

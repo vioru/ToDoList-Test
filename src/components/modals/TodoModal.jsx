@@ -1,20 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Box, Typography } from '@mui/material';
-import AddTodo from '../NewTodo';
 import TodoDetail from '../TodoDetail';
+import DeleteTodo from '../DeleteTodo';
+import NewTodo from '../NewTodo';
 
 const TodoModal = ({ open, onClose, mode = 'add', todoData = null }) => {
-  const getTitleByMode = () => {
-    switch (mode) {
-      case 'edit':
-        return 'Editar Tarea';
-      case 'detail':
-        return 'Detalles de la Tarea';
-      default:
-        return 'Nueva Tarea';
-    }
-  };
+
 
   const renderContent = () => {
     switch (mode) {
@@ -23,12 +14,15 @@ const TodoModal = ({ open, onClose, mode = 'add', todoData = null }) => {
       case 'add':
       case 'edit':
         return (
-          <AddTodo 
+          <NewTodo
             editMode={mode === 'edit'}
             todoData={todoData}
             onSubmitSuccess={onClose}
+            onClose={onClose}
           />
         );
+        case 'delete':
+        return <DeleteTodo todo={todoData} onClose={onClose} />;
       default:
         return null;
     }
@@ -47,17 +41,11 @@ const TodoModal = ({ open, onClose, mode = 'add', todoData = null }) => {
         transform: 'translate(-50%, -50%)',
         width: { xs: '90%', sm: 500 },
         bgcolor: 'background.paper',
-        borderRadius: 2,
+        borderRadius: 6,
         boxShadow: 24,
         p: 4,
       }}>
-        <Typography 
-          variant="h6" 
-          component="h2" 
-          sx={{ mb: 2 }}
-        >
-          {getTitleByMode()}
-        </Typography>
+
 
         {renderContent()}
       </Box>
@@ -75,8 +63,6 @@ TodoModal.propTypes = {
     text: PropTypes.string,
     completed: PropTypes.bool,
     userId: PropTypes.number,
-    priority: PropTypes.string,
-    category: PropTypes.string,
     createdAt: PropTypes.string
   })
 };

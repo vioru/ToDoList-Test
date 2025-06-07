@@ -11,7 +11,7 @@ const SearchBar = () => {
         fullWidth
         placeholder="Buscar tareas..."
         variant="outlined"
-        size="large"
+        size="small"
         onChange={(e) => setSearchQuery(e.target.value)}
         InputProps={{
           startAdornment: (
