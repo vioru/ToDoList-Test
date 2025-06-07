@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import TodoList from '../TodoList';
-import AddTodoModal from '../modals/AddTodoModal';
+import AddTodoModal from '../modals/TodoModal';
 import ErrorAlert from '../common/ErrorAlert';
 import LoadingOverlay from '../common/LoadingOverlay';
 

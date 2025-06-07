@@ -1,23 +1,21 @@
 import React, { useEffect } from 'react';
 import MainLayout from './components/layout/MainLayout';
-import { useTodos } from './hooks/useTodos';
+import { useStore } from './store/todoStore';
 
 function App() {
-  const { 
-    loading, 
-    error, 
-    useMockApi, 
-    loadTodos, 
-    toggleApiMode, 
-    clearError 
-  } = useTodos();
+  const fetchTodos = useStore(state => state.fetchTodos);
+  const loading = useStore(state => state.loading);
+  const error = useStore(state => state.error);
+  const initialized = useStore(state => state.initialized);
+  const todos = useStore(state => state.todos);
 
-  // Cargar todos al iniciar la aplicación
   useEffect(() => {
-    loadTodos();
-  }, [useMockApi]); // Recargar cuando cambie el modo de API
+    // Solo hacer fetch si no está inicializado o no hay todos
+    if (!initialized || todos.length === 0) {
+      fetchTodos();
+    }
+  }, [initialized, todos.length, fetchTodos]); 
 
-  // Loader global
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -30,9 +28,7 @@ function App() {
     <MainLayout 
       loading={loading}
       error={error}
-      onRefresh={loadTodos}
-      onToggleApi={toggleApiMode}
-      onClearError={clearError}
+      onRefresh={fetchTodos}
     />
   );
 }

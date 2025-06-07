@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Typography, Box } from '@mui/material';
 import { useStore } from '../store/todoStore';
-import CardPT from './CardPT';
+import CardPT from './CardTodoItem';
 import Pagination from './Pagination';
 
 const TodoList = () => {

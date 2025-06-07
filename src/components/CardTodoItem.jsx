@@ -15,12 +15,14 @@ import {
   Person as PersonIcon
 } from '@mui/icons-material';
 import { useStore, getUserName } from '../store/todoStore';
-import AddTodoModal from './modals/AddTodoModal';
-import TodoDetailModal from './modals/TodoDetailModal';
+import TodoModal from './modals/TodoModal';
 
-const CardPT = ({ todo }) => {
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+const CardTodoItem = ({ todo }) => {
+  const [modalConfig, setModalConfig] = useState({
+    open: false,
+    mode: 'detail',
+    todoData: null
+  });
   
   const users = useStore(state => state.users);
   const toggleTodo = useStore(state => state.toggleTodo);
@@ -32,14 +34,34 @@ const CardPT = ({ todo }) => {
   );
 
   const handleEdit = (e) => {
-    e.stopPropagation(); 
-    setIsEditModalOpen(true);
+    e.stopPropagation();
+    setModalConfig({
+      open: true,
+      mode: 'edit',
+      todoData: todo
+    });
+  };
+
+  const handleDetailView = () => {
+    setModalConfig({
+      open: true,
+      mode: 'detail',
+      todoData: todo
+    });
+  };
+
+  const closeModal = () => {
+    setModalConfig({
+      open: false,
+      mode: 'detail',
+      todoData: null
+    });
   };
 
   return (
     <>
       <MuiCard
-        onClick={() => setIsDetailModalOpen(true)}
+        onClick={handleDetailView}
         sx={{
           borderRadius: 5,
           height: '100%',
@@ -66,7 +88,10 @@ const CardPT = ({ todo }) => {
               >
                 <Checkbox
                   checked={todo.completed}
-                  onChange={() => toggleTodo(todo.id)}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    toggleTodo(todo.id);
+                  }}
                   sx={{
                     '&.Mui-checked': {
                       color: 'success.main',
@@ -106,7 +131,7 @@ const CardPT = ({ todo }) => {
               <IconButton
                 size="small"
                 onClick={(e) => {
-                  e.stopPropagation(); 
+                  e.stopPropagation();
                   removeTodo(todo.id);
                 }}
                 sx={{ color: 'error.main' }}
@@ -142,25 +167,18 @@ const CardPT = ({ todo }) => {
         </CardContent>
       </MuiCard>
 
-      {/* Modal de detalles de la tarea*/}
-      <TodoDetailModal
-        open={isDetailModalOpen}
-        onClose={() => setIsDetailModalOpen(false)}
-        todo={todo}
-      />
-
-      {/* Modal de edición */}
-      <AddTodoModal
-        open={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        editMode={true}
-        todoData={todo}
+      {/* Modal unificado */}
+      <TodoModal
+        open={modalConfig.open}
+        onClose={closeModal}
+        mode={modalConfig.mode}
+        todoData={modalConfig.todoData}
       />
     </>
   );
 };
 
-CardPT.propTypes = {
+CardTodoItem.propTypes = {
   todo: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     title: PropTypes.string.isRequired,
@@ -172,4 +190,4 @@ CardPT.propTypes = {
   }).isRequired
 };
 
-export default CardPT;
+export default CardTodoItem;
