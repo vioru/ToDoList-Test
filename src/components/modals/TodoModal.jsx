@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { Modal, Box, Typography } from '@mui/material';
-import TodoDetail from '../TodoDetail';
-import DeleteTodo from '../DeleteTodo';
-import NewTodo from '../NewTodo';
+import TodoDetail from '../main-components/detail-toDo/DetailToDo';
+import DeleteTodo from '../main-components/delete-toDo/DeleteTodo';
+import NewTodo from '../main-components/new-toDo/NewTodo';
 
 const TodoModal = ({ open, onClose, mode = 'add', todoData = null }) => {
 

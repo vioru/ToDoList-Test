@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import MainLayout from './components/layout/MainLayout';
+import MainLayout from './components/layout/main-layout/MainLayout';
 import { useStore } from './store/todoStore';
-import LoadingOverlay from './components/common/LoadingOverlay';
+import LoadingOverlay from './components/status/LoadingOverlay';
 
 function App() {
   const fetchTodos = useStore(state => state.fetchTodos);

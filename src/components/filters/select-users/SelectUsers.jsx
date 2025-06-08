@@ -1,5 +1,5 @@
 import { FormControl, Select, MenuItem } from '@mui/material';
-import { useStore } from '../../store/todoStore';
+import { useStore } from '../../../store/todoStore';
 import { Person } from '@mui/icons-material';
 
 const SelectUsers = () => {

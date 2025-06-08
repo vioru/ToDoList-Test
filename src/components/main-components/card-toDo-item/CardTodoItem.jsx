@@ -8,8 +8,8 @@ import {
   EditOutlined,
   Person as PersonIcon
 } from '@mui/icons-material';
-import { useStore, getUserName } from '../store/todoStore';
-import TodoModal from './modals/TodoModal';
+import { useStore, getUserName } from '../../../store/todoStore';
+import TodoModal from '../../modals/TodoModal';
 
 const CardTodoItem = ({ todo }) => {
   const [modalConfig, setModalConfig] = useState({

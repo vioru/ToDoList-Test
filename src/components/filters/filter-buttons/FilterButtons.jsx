@@ -6,7 +6,7 @@ import {
   DashboardCustomizeOutlined,
   DashboardOutlined,
 } from '@mui/icons-material';
-import { useStore } from '../../store/todoStore';
+import { useStore } from '../../../store/todoStore';
 
 const FilterList = () => {
   const todos = useStore(state => state.todos);

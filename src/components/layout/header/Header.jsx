@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
-import SearchBar from '../filters/SearchBar';
+import SearchBar from '../../filters/searchbar/SearchBar';
 import PropTypes from 'prop-types';
 
 const Header = ({ onAddClick }) => {

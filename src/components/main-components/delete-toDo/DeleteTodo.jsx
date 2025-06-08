@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useStore } from '../store/todoStore';
+import { useStore } from '../../../store/todoStore';
 import { CloseRounded } from '@mui/icons-material';
 
 const DeleteTodo = ({ todo, onClose }) => {

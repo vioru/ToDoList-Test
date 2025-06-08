@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Chip, Divider } from '@mui/material';
 import { CloseRounded, Person as PersonIcon } from '@mui/icons-material';
-import { useStore, getUserName } from '../store/todoStore';
+import { useStore, getUserName } from '../../../store/todoStore';
 
 const TodoDetail = ({ todo, onClose }) => {
   const users = useStore(state => state.users);

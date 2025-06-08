@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import Sidebar from './Sidebar';
-import Header from './Header';
-import TodoList from '../TodoList';
-import AddTodoModal from '../modals/TodoModal';
-import ErrorAlert from '../common/ErrorAlert';
+import Sidebar from '../sidebar/Sidebar';
+import Header from '../header/Header';
+import TodoList from '../../main-components/list-ToDo/ListToDo';
+import AddTodoModal from '../../modals/TodoModal';
+import ErrorAlert from '../../status/ErrorAlert';
 
 const MainLayout = ({ error, onRefresh, onToggleApi, onClearError }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);

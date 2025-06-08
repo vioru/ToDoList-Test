@@ -1,8 +1,8 @@
 import { Drawer, Divider, Button } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useStore } from '../../store/todoStore';
-import FilterButtons from '../filters/FilterButtons';
-import SelectUsers from '../filters/SelectUsers';
+import { useStore } from '../../../store/todoStore';
+import FilterButtons from '../../filters/filter-buttons/FilterButtons';
+import SelectUsers from '../../filters/select-users/SelectUsers';
 
 const Sidebar = ({ onToggleApi }) => {
   const todos = useStore(state => state.todos);
@@ -11,6 +11,7 @@ const Sidebar = ({ onToggleApi }) => {
   const selectedUserId = useStore(state => state.selectedUserId);
   const setSelectedUserId = useStore(state => state.setSelectedUserId);
   const selectedUser = users.find(u => u.id === selectedUserId);
+  const setSearchQuery = useStore(state => state.setSearchQuery);
 
   const filteredByUser = selectedUserId
     ? todos.filter(todo => todo.userId === selectedUserId)
@@ -46,7 +47,8 @@ const Sidebar = ({ onToggleApi }) => {
             className="!rounded-full !bg-transparent !text-primary-500 !shadow-none !p-0 !my-2 hover:!bg-transparent hover:!shadow-none !normal-case !underline"
             onClick={() => {
               setFilter('all');
-              setSelectedUserId(null);
+              setSelectedUserId(null);7
+              setSearchQuery('');
 
             }}
           >

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useStore } from '../store/todoStore';
-import Pagination from './Pagination';
-import CardTodoItem from './CardTodoItem';
+import { useStore } from '../../../store/todoStore';
+import Pagination from '../pagination/Pagination';
+import CardTodoItem from '../card-toDo-item/CardTodoItem';
 
 const TodoList = () => {
   const getFilteredTodos = useStore((state) => state.getFilteredTodos);

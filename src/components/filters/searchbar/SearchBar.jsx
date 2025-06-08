@@ -1,18 +1,25 @@
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { Search as SearchIcon, Clear as ClearIcon } from '@mui/icons-material';
-import { useStore } from '../../store/todoStore';
-import { useState } from 'react';
+import { useStore } from '../../../store/todoStore';
+import { useEffect, useState } from 'react';
 
 const SearchBar = () => {
   const searchQuery = useStore(state => state.searchQuery);
   const setSearchQuery = useStore(state => state.setSearchQuery);
   const [localValue, setLocalValue] = useState(searchQuery || '');
 
+  useEffect(() => {
+    setLocalValue(searchQuery); 
+  }, [searchQuery]);
+
+
   const handleChange = (e) => {
     const value = e.target.value;
     setLocalValue(value);
     setSearchQuery(value);
   };
+
+
 
   const handleClear = () => {
     setLocalValue('');

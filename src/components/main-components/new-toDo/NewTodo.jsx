@@ -13,7 +13,7 @@ import {
   CircularProgress,
   FormHelperText, 
 } from '@mui/material';
-import { useStore } from '../store/todoStore';
+import { useStore } from '../../../store/todoStore';
 import { CloseRounded } from '@mui/icons-material';
 
 const schema = yup.object({
@@ -112,6 +112,7 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess, onClose }
       <FormControl fullWidth error={!!errors.userId}>
         <InputLabel>Asignar a</InputLabel>
         <Select
+          data-testid="user-select"
           {...register('userId')}
           label="Asignar a"
           disabled={isLoading}
@@ -119,7 +120,7 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess, onClose }
           sx={{ borderRadius: 4 }}
         >
           {users.map(user => (
-            <MenuItem key={user.id} value={user.id}>
+            <MenuItem key={user.id} value={user.id} data-testid={`${user.id}`}>
               {user.name}
             </MenuItem>
           ))}
