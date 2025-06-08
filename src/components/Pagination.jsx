@@ -15,7 +15,7 @@ const Pagination = ({ totalItems, itemsPerPage, currentPage, onPageChange }) => 
         showLastButton
             sx={{
           '& .Mui-selected': {
-            backgroundColor: '#906CE5', 
+            backgroundColor:'#906CE5', 
             color: 'white',
             '&:hover': {
               backgroundColor: '#7D40D9', 
