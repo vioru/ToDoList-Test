@@ -87,7 +87,7 @@ const FilterList = () => {
             inline-flex items-center justify-center px-3 py-1 
             rounded-full text-sm font-medium ${colorClasses.badge}
           `}>
-            {count}+
+            {count}
           </span>
         </button>
       ))}

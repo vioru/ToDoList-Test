@@ -11,7 +11,7 @@ import {
   Select,
   MenuItem,
   CircularProgress,
-  FormHelperText, 
+  FormHelperText,
 } from '@mui/material';
 import { useStore } from '../../../store/todoStore';
 import { CloseRounded } from '@mui/icons-material';
@@ -76,10 +76,13 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess, onClose }
       }
 
       reset();
-      resetPagination();
-      setFilter("all")
-      setSelectedUserId(null);
-      setSearchQuery('');
+      if (!editMode) {
+        resetPagination();
+        setFilter("all");
+        setSelectedUserId(null);
+        setSearchQuery('');
+      }
+
       if (onSubmitSuccess) {
         setTimeout(() => {
           onSubmitSuccess();
@@ -90,7 +93,7 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess, onClose }
     } finally {
       setIsSubmitting(false);
     }
-     };
+  };
 
   const isLoading = isSubmitting || operationLoading;
 
@@ -101,10 +104,10 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess, onClose }
           {editMode ? 'Editar Tarea' : 'Nueva Tarea'}
         </h2>
         <Button onClick={onClose} className="!min-w-0 !p-1">
-          <CloseRounded  className=" text-primary-300 hover:bg-primary-100 rounded-full"/>
+          <CloseRounded className=" text-primary-300 hover:bg-primary-100 rounded-full" />
         </Button>
       </div>
-      
+
       <TextField
         {...register('text')}
         label="Título de la tarea"
