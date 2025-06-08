@@ -33,7 +33,11 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess, onClose }
   const users = useStore(state => state.users);
   const addTodo = useStore(state => state.addTodo);
   const updateTodo = useStore(state => state.updateTodo);
-  const operationLoading = useStore(state => state.operationLoading); 
+  const operationLoading = useStore(state => state.operationLoading);
+  const resetPagination = useStore(state => state.resetPagination);
+  const setFilter = useStore(state => state.setFilter);
+  const setSelectedUserId = useStore(state => state.setSelectedUserId);
+  const setSearchQuery = useStore(state => state.setSearchQuery);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm({
@@ -72,6 +76,10 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess, onClose }
       }
 
       reset();
+      resetPagination();
+      setFilter("all")
+      setSelectedUserId(null);
+      setSearchQuery('');
       if (onSubmitSuccess) {
         setTimeout(() => {
           onSubmitSuccess();
@@ -82,7 +90,7 @@ const NewTodo = ({ editMode = false, todoData = null, onSubmitSuccess, onClose }
     } finally {
       setIsSubmitting(false);
     }
-  };
+     };
 
   const isLoading = isSubmitting || operationLoading;
 

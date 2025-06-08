@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useStore } from '../../../store/todoStore';
 import FilterButtons from '../../filters/filter-buttons/FilterButtons';
 import SelectUsers from '../../filters/select-users/SelectUsers';
+import { Adjust, TrackChanges } from '@mui/icons-material';
 
 const Sidebar = ({ onToggleApi }) => {
   const todos = useStore(state => state.todos);
@@ -38,16 +39,21 @@ const Sidebar = ({ onToggleApi }) => {
     >
       <div className="p-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            TaskFlow
-          </h1>
+        <div className="space-y-4">
+            <div className="inline-flex items-center space-x-3  py-3 ">
+              <TrackChanges className="w-10 h-18 text-purple-500" />
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-blue-600 bg-clip-text text-transparent">
+                Task Flow
+              </h1>
+            </div>
+            </div>
           
           <Button 
             variant="text"
             className="!rounded-full !bg-transparent !text-primary-500 !shadow-none !p-0 !my-2 hover:!bg-transparent hover:!shadow-none !normal-case !underline"
             onClick={() => {
               setFilter('all');
-              setSelectedUserId(null);7
+              setSelectedUserId(null);
               setSearchQuery('');
 
             }}

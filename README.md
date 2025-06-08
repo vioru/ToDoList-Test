@@ -1,6 +1,6 @@
 ## TaskFlow
 
-Una aplicación moderna de gestión de tareas construida con React, Material-UI y Zustand. Permite crear, editar, filtrar y gestionar tareas de manera intuitiva.
+Una aplicación de gestión de tareas construida con React, Material-UI y Zustand. Permite crear, editar, filtrar y gestionar tareas de manera intuitiva.
 
 ✨  
 ## Características
@@ -17,7 +17,7 @@ Estado global: Gestión eficiente del estado con Zustand
 
 ## Tecnologías Utilizadas
 
-React 18+ - Biblioteca de JavaScript para interfaces de usuario
+React 19+ - Biblioteca de JavaScript para interfaces de usuario
 Material-UI (MUI) - Componentes de interfaz de usuario
 Zustand - Gestión de estado ligera y flexible
 Tailwind CSS - Framework de CSS para estilos
@@ -25,7 +25,7 @@ React Hook Form + Yup - Manejo y validación de formularios
 Axios - Cliente HTTP para peticiones a la API
 Vite - Herramienta de desarrollo rápida
 
-## Prerrequisitos
+## Pre requisitos
 Antes de comenzar, asegúrate de tener instalado:
 
 Node.js (versión 16.0 o superior)
@@ -64,3 +64,10 @@ npm run preview
 
 # Con yarn
 yarn preview
+
+6. Para correr los test
+# Con npm
+npm run test
+
+# Con yarn
+yarn test

@@ -39,6 +39,7 @@ export const useStore = create(
       selectedUserId: null,
       users: mockUsers,
       initialized: false,
+      currentPage: 1,
 
       fetchTodos: async () => {
         const state = get();
@@ -56,6 +57,7 @@ export const useStore = create(
           }
         }
       },
+
 
 addTodo: async (todoData) => {
   set({ operationLoading: true, error: null });
@@ -110,6 +112,9 @@ addTodo: async (todoData) => {
         }
       },
 
+resetPagination: () => set({ currentPage: 1 }),
+setCurrentPage: (page) => set({ currentPage: page }),
+
 getFilteredTodos: () => {
   const state = get();
   const { 
@@ -153,6 +158,7 @@ getFilteredTodos: () => {
         set({ selectedUserId: userId });
       }
     }),
+
     {
       name: 'todo-storage',
       storage: createJSONStorage(() => localStorage)

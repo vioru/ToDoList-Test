@@ -9,7 +9,8 @@ const TodoList = () => {
   const filter = useStore((state) => state.filter);
   const searchQuery = useStore((state) => state.searchQuery);
   const todos = useStore((state) => state.todos); 
-  const [currentPage, setCurrentPage] = useState(1);
+    const currentPage = useStore((state) => state.currentPage); 
+  const setCurrentPage = useStore((state) => state.setCurrentPage); 
   const itemsPerPage = 6;
 
   const filteredTodos = useMemo(
@@ -42,7 +43,7 @@ const TodoList = () => {
 
   return (
     <>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8  bg-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {currentTodos.map((todo) => (
             <div

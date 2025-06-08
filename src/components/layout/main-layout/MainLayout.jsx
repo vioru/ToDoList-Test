@@ -10,7 +10,7 @@ const MainLayout = ({ error, onRefresh, onToggleApi, onClearError }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden  bg-gray-50">
       <Sidebar onToggleApi={onToggleApi} />
       
       <main className="flex-1 overflow-auto bg-gray-50">

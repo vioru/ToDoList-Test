@@ -4,7 +4,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import NewTodo from './NewTodo';
 import { useStore } from '../../../store/todoStore';
 
-
 vi.mock('../../../store/todoStore', () => ({
   useStore: vi.fn()
 }));
@@ -13,9 +12,34 @@ vi.mock('@mui/material', async () => {
   const actual = await vi.importActual('@mui/material');
   return {
     ...actual,
+    TextField: ({ label, ...props }) => (
+      <input aria-label={label} placeholder={label} {...props} />
+    ),
+    Select: ({ children, value, onChange, ...props }) => (
+      <select role="combobox" value={value} onChange={onChange} {...props}>
+        {children}
+      </select>
+    ),
+    MenuItem: ({ children, value, ...props }) => (
+      <option value={value} data-testid={value?.toString()} {...props}>
+        {children}
+      </option>
+    ),
+    FormControl: ({ children }) => <div>{children}</div>,
+    InputLabel: ({ children }) => <label>{children}</label>,
+    FormHelperText: ({ children }) => <div>{children}</div>,
+    Button: ({ children, onClick, type, ...props }) => (
+      <button onClick={onClick} type={type} {...props}>
+        {children}
+      </button>
+    ),
     CircularProgress: ({ size }) => <div data-testid="loading-spinner" style={{ width: size, height: size }} />
   };
 });
+
+vi.mock('@mui/icons-material', () => ({
+  CloseRounded: () => <span data-testid="close-icon">×</span>
+}));
 
 describe('NewTodo Component', () => {
   const mockUsers = [
@@ -32,13 +56,16 @@ describe('NewTodo Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     
-
     useStore.mockImplementation((selector) => {
       const mockState = {
         users: mockUsers,
         addTodo: mockAddTodo,
         updateTodo: mockUpdateTodo,
-        operationLoading: false
+        operationLoading: false,
+        resetPagination: vi.fn(),
+        setFilter: vi.fn(),
+        setSelectedUserId: vi.fn(),
+        setSearchQuery: vi.fn()
       };
       
       if (typeof selector === 'function') {
@@ -80,13 +107,9 @@ describe('NewTodo Component', () => {
     });
 
     it('deberia mostra a todos los usuarios en el select', async () => {
-      const user = userEvent.setup();
       render(<NewTodo onClose={mockOnClose} />);
       
-
-      const selectButton = screen.getByRole('combobox');
-      await user.click(selectButton);
-      
+      // Los usuarios aparecen directamente en el select como options
       for (const mockUser of mockUsers) {
         expect(screen.getByTestId(mockUser.id.toString())).toBeInTheDocument();
         expect(screen.getByText(mockUser.name)).toBeInTheDocument();
@@ -94,8 +117,6 @@ describe('NewTodo Component', () => {
     });
 
   });
-
-
 
   describe('formulario-nueva tarea', () => {
     it('debería crear una nueva tarea cuando los datos son correctos', async () => {
@@ -107,12 +128,8 @@ describe('NewTodo Component', () => {
       const titleInput = screen.getByLabelText('Título de la tarea');
       await user.type(titleInput, 'Nueva tarea ');
       
-
-      const selectButton = screen.getByRole('combobox');
-      await user.click(selectButton);
-      
-      const userOption = screen.getByTestId('1');
-      await user.click(userOption);
+      const selectElement = screen.getByRole('combobox');
+      await user.selectOptions(selectElement, '1');
       
       const submitButton = screen.getByRole('button', { name: /crear nueva tarea/i });
       await user.click(submitButton);

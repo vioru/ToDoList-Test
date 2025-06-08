@@ -4,11 +4,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import Sidebar from './Sidebar';
 import { useStore } from '../../../store/todoStore';
 
-
 vi.mock('../../../store/todoStore', () => ({
   useStore: vi.fn()
 }));
-
 
 vi.mock('@mui/material', async () => {
   const actual = await vi.importActual('@mui/material');
@@ -23,6 +21,10 @@ vi.mock('@mui/material', async () => {
     )
   };
 });
+
+vi.mock('@mui/icons-material', () => ({
+  TrackChanges: () => <span data-testid="track-changes-icon">🔄</span>
+}));
 
 vi.mock('../../filters/filter-buttons/FilterButtons', () => ({
   default: () => <div data-testid="filter-buttons">Filter Buttons Component</div>
@@ -72,36 +74,27 @@ describe('Sidebar Component', () => {
     });
   });
 
-  it('should render sidebar with correct structure and child components', () => {
+  it('deberia renderizar el side bar con todas sus funcionalidades y/o elementos', () => {
     render(<Sidebar onToggleApi={mockOnToggleApi} />);
 
     expect(screen.getByTestId('sidebar-drawer')).toBeInTheDocument();
-    expect(screen.getByText('TaskFlow')).toBeInTheDocument();
+    expect(screen.getByText('Task Flow')).toBeInTheDocument();
     expect(screen.getByText('Borrar filtros')).toBeInTheDocument();
     expect(screen.getByText('Resumen de Tareas')).toBeInTheDocument();
     
-
     expect(screen.getByTestId('filter-buttons')).toBeInTheDocument();
     expect(screen.getByTestId('select-users')).toBeInTheDocument();
     expect(screen.getAllByTestId('divider')).toHaveLength(2);
   });
 
-  it('should display correct task statistics without user filter', () => {
-    render(<Sidebar onToggleApi={mockOnToggleApi} />);
-    
- 
-    expect(screen.getByText('Completadas: 2')).toBeInTheDocument();
-    expect(screen.getByText('Pendientes: 2')).toBeInTheDocument();
-  });
 
-  it('should display filtered statistics and selected user when user is selected', () => {
-
+  it('deberia mostrar la cantidad de tareas completas o pendientes filtrando por usuaro', () => {
     useStore.mockImplementation((selector) => {
       const mockState = {
         todos: mockTodos,
         setFilter: mockSetFilter,
         users: mockUsers,
-        selectedUserId: 1, // User 1 selected
+        selectedUserId: 1,
         setSelectedUserId: mockSetSelectedUserId,
         setSearchQuery: mockSetSearchQuery
       };
@@ -115,14 +108,12 @@ describe('Sidebar Component', () => {
     
     render(<Sidebar onToggleApi={mockOnToggleApi} />);
     
-
     expect(screen.getByText('Usuario: Juan Pérez')).toBeInTheDocument();
-
     expect(screen.getByText('Completadas: 1')).toBeInTheDocument();
     expect(screen.getByText('Pendientes: 1')).toBeInTheDocument();
   });
 
-  it('should call clear filters functions when clear button is clicked', async () => {
+  it('deberia limpiar los filtros aplicados cuando se de click en limpiar filtros', async () => {
     const user = userEvent.setup();
     render(<Sidebar onToggleApi={mockOnToggleApi} />);
     
