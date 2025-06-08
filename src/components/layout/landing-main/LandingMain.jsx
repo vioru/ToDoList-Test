@@ -22,7 +22,7 @@ const LandingMain = () => {
           </div>
 
           <img
-            src="src/assets/img/team_work.svg"
+            src="/assets/img/team_work.svg"
             alt="people work illustration"
             className="w-full max-w-md h-auto"
           />
