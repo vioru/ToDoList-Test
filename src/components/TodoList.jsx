@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Typography, Box } from '@mui/material';
 import { useStore } from '../store/todoStore';
 import Pagination from './Pagination';
 import CardTodoItem from './CardTodoItem';
@@ -13,12 +12,10 @@ const TodoList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-
- const filteredTodos = useMemo(
+  const filteredTodos = useMemo(
     () => getFilteredTodos(),
     [getFilteredTodos, filter, selectedUserId, searchQuery, todos]
   );
-
 
   useEffect(() => {
     setCurrentPage(1);
@@ -35,11 +32,11 @@ const TodoList = () => {
 
   if (filteredTodos.length === 0) {
     return (
-      <Box p={3} textAlign="center">
-        <Typography color="textSecondary">
-          {selectedUserId ? 'No tasks found for this user' : 'No tasks found'}
-        </Typography>
-      </Box>
+      <div className="p-6 text-center">
+        <p className="text-gray-500">
+          {selectedUserId ? 'No se encontraron tareas para este usuario' : 'No se encontraron tareas'}
+        </p>
+      </div>
     );
   }
 

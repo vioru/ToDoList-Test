@@ -1,19 +1,19 @@
-import { Typography, FormControl, Select, MenuItem, Box } from '@mui/material';
+import { FormControl, Select, MenuItem } from '@mui/material';
 import { useStore } from '../../store/todoStore';
 import { Person } from '@mui/icons-material';
 
-const SelectUSers = () => {
+const SelectUsers = () => {
     const users = useStore(state => state.users);
     const selectedUserId = useStore(state => state.selectedUserId);
     const setSelectedUserId = useStore(state => state.setSelectedUserId);
     const setFilter = useStore(state => state.setFilter);
 
     return (
-
-        <Box sx={{ p: 3 }}>
-            <Typography variant="overline" color="text.primary" gutterBottom sx={{ textTransform: 'none', fontWeight: 'bold', fontSize: '1rem' }}>
+        <div className="p-6 ">
+            <h3 className="text-base font-bold text-gray-800 mb-3 uppercase tracking-wide">
                 Filtrar por Usuario
-            </Typography>
+            </h3>
+            
             <FormControl fullWidth size="small">
                 <Select
                     value={selectedUserId ?? ''}
@@ -29,20 +29,21 @@ const SelectUSers = () => {
                         }
                     }}
                 >
-                    <MenuItem value="">Todos los usuarios</MenuItem>
+                    <MenuItem value="">
+                        <span className="text-gray-600">Todos los usuarios</span>
+                    </MenuItem>
                     {users.map(user => (
                         <MenuItem key={user.id} value={user.id}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <Person fontSize="small" />
-                                {user.name}
-                            </Box>
+                            <div className="flex items-center gap-2">
+                                <Person fontSize="small" className="text-gray-500" />
+                                <span className="text-gray-800">{user.name}</span>
+                            </div>
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
-        </Box>
-
+        </div>
     );
 };
 
-export default SelectUSers;
+export default SelectUsers;

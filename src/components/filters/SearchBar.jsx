@@ -6,7 +6,7 @@ const SearchBar = () => {
   const setSearchQuery = useStore(state => state.setSearchQuery);
 
   return (
-    <div className="w-full [&_.MuiOutlinedInput-root]:rounded-full ">
+    <div className="w-full [&_.MuiOutlinedInput-root]:rounded-full">
       <TextField
         fullWidth
         placeholder="Buscar tareas..."
@@ -16,7 +16,7 @@ const SearchBar = () => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon />
+              <SearchIcon className="text-gray-500" />
             </InputAdornment>
           ),
         }}

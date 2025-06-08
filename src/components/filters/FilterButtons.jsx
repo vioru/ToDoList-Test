@@ -1,15 +1,10 @@
 import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Badge,
-  ListItemButton,
-} from '@mui/material';
-import {
   Dashboard,
   CheckCircle,
   Schedule,
+  CheckCircleOutline,
+  DashboardCustomizeOutlined,
+  DashboardOutlined,
 } from '@mui/icons-material';
 import { useStore } from '../../store/todoStore';
 
@@ -33,85 +28,70 @@ const FilterList = () => {
     {
       id: 'all',
       label: 'Todas las tareas',
-      icon: <Dashboard />,
+      icon: <DashboardOutlined className="text-xl" />,
       count: stats.total,
-      color: 'primary'
+      colorClasses: {
+        bgSelected: 'bg-primary-100',
+        icon: 'text-primary-500',
+        badge: 'bg-primary-300  text-white'
+      }
     },
     {
       id: 'active',
       label: 'Pendientes',
-      icon: <Schedule />,
+      icon: <Schedule className="text-xl" />,
       count: stats.active,
-      color: 'warning'
+      colorClasses: {
+        bgSelected: 'bg-orange-50',
+        icon: 'text-orange-500',
+        badge: 'bg-orange-500 text-white'
+      }
     },
     {
       id: 'completed',
       label: 'Completadas',
-      icon: <CheckCircle />,
+      icon: <CheckCircleOutline className="text-xl" />,
       count: stats.completed,
-      color: 'success'
+      colorClasses: {
+        bgSelected: 'bg-green-50',
+        icon: 'text-green-500',
+        badge: 'bg-green-500 text-white'
+      }
     }
   ];
 
   return (
-    <List sx={{ px: 2 }}>
-      {filters.map(({ id, label, icon, count, color }) => (
-        <ListItem key={id} disablePadding>
-          <ListItemButton
-            selected={currentFilter === id}
-            onClick={() => setFilter(id)}
-            sx={{
-              borderRadius: 25,
-              m: 1,
-              py: 1.5,
-              px: 2,
-              display: 'flex',
-              alignItems: 'center',
-              '&.Mui-selected': {
-                bgcolor: `${color}.lighter`,
-                '&:hover': {
-                  bgcolor: `${color}.light`,
-                },
-              },
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                color: `${color}.main`,
-                minWidth: '40px',
-                '& .MuiSvgIcon-root': {
-                  fontSize: '1.25rem'
-                }
-              }}
-            >
-              {icon}
-            </ListItemIcon>
-            <ListItemText
-              primary={label}
-              sx={{
-                flex: '1 1 auto',
-                '& .MuiTypography-root': {
-                  fontSize: '0.875rem',
-                }
-              }}
-            />
-            <Badge
-              badgeContent={count}
-              color={color}
-              sx={{
-                '& .MuiBadge-badge': {
-                  minWidth: '40px',
-                  height: '24px',
-                  padding: '0 8px',
-                  right: 20,
-                  borderRadius: '12px',
-                }
-              }}
-            />
-          </ListItemButton>
-        </ListItem>
+    <div className="px-4 space-y-2 mt-3">
+      {filters.map(({ id, label, icon, count, colorClasses }) => (
+        <button
+          key={id}
+          onClick={() => setFilter(id)}
+          className={`
+            w-full rounded-2xl py-3 px-4 flex items-center transition-colors
+            ${currentFilter === id 
+              ? `${colorClasses.bgSelected}` 
+              : `hover:bg-gray-50`
+            }
+          `}
+        >
+          <div className={`mr-3 ${colorClasses.icon}`}>
+            {icon}
+          </div>
+
+          
+          <span className="flex-1 text-left font-medium text-gray-800">
+            {label}
+          </span>
+          
+          <span className={`
+            inline-flex items-center justify-center px-3 py-1 
+            rounded-full text-sm font-medium ${colorClasses.badge}
+          `}>
+            {count}+
+          </span>
+        </button>
       ))}
-    </List>
+    </div>
   );
 };
 

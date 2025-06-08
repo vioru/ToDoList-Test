@@ -1,22 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Card as MuiCard,
-  CardContent,
-  Typography,
-  Box,
-  Checkbox,
-  IconButton,
-  Chip
-} from '@mui/material';
+import { Checkbox } from '@mui/material';
 import {
   Delete as DeleteIcon,
+  DeleteOutline,
   Edit as EditIcon,
+  EditOutlined,
   Person as PersonIcon
 } from '@mui/icons-material';
 import { useStore, getUserName } from '../store/todoStore';
 import TodoModal from './modals/TodoModal';
-
 
 const CardTodoItem = ({ todo }) => {
   const [modalConfig, setModalConfig] = useState({
@@ -36,7 +29,6 @@ const CardTodoItem = ({ todo }) => {
 
   const handleToggle = (e) => {
     console.log("estoy en check box", todo.completed);
-
     toggleTodo(todo.id, {
       completed: !todo.completed
     });
@@ -78,102 +70,78 @@ const CardTodoItem = ({ todo }) => {
 
   return (
     <>
-      <MuiCard
+      <div
         onClick={handleDetailView}
-        sx={{
-          borderRadius: 5,
-          height: '100%',
-          minHeight: 150,
-          maxHeight: 200,
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'relative',
-          transition: 'all 0.3s ease',
-          cursor: 'pointer',
-          '&:hover': {
-            transform: 'translateY(-2px)',
-            boxShadow: (theme) => theme.shadows[4]
-          }
-        }}
+        className="bg-white rounded-3xl h-full min-h-[150px] max-h-[200px] flex flex-col relative transition-all duration-300 cursor-pointer hover:-translate-y-1  shadow-lg  border border-gray-100"
       >
-        <CardContent sx={{ flex: 1, p: 2 }}>
-          <Box display="flex" alignItems="flex-start" justifyContent="space-between">
-            <Box display="flex" alignItems="center" gap={1} flex={1}>
+        <div className="flex-1 p-4 ">
+
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
               <Checkbox
                 checked={todo.completed}
                 onChange={handleToggle}
                 onClick={(e) => e.stopPropagation()}
+                className="text-green-500"
                 sx={{
                   '&.Mui-checked': {
-                    color: 'success.main',
+                    color: 'rgb(34 197 94)',
                   }
                 }}
               />
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    textDecoration: todo.completed ? 'line-through' : 'none',
-                    color: todo.completed ? 'text.secondary' : 'text.primary',
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    mb: 0.5,
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    lineHeight: 1.2,
-                  }}
+              <div className="flex-1 min-w-0">
+                <h3 
+                  className={`text-base font-medium mb-1 line-clamp-2 leading-tight ${
+                    todo.completed 
+                      ? 'line-through text-gray-500' 
+                      : 'text-gray-900'
+                  }`}
                 >
                   {todo.title}
-                </Typography>
-              </Box>
-            </Box>
-            <Box display="flex" gap={1}>
-              <IconButton
-                size="small"
+                </h3>
+              </div>
+            </div>
+            
+
+            <div className="flex gap-1 ml-2">
+              <button
                 onClick={handleEdit}
-                sx={{ color: 'primary.main' }}
+                className="p-1.5  hover:bg-primary-100 rounded-full transition-colors"
               >
-                <EditIcon fontSize="small" />
-              </IconButton>
-              <IconButton
-                size="small"
+              <EditOutlined className="w-4 h-4 text-primary-300"/>
+        
+              </button>
+              <button
                 onClick={handleOpenRemove}
-                sx={{ color: 'error.main' }}
+                className="p-1.5 text-red-600 hover:bg-red-50 rounded-full transition-colors"
               >
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </Box>
-          </Box>
+                <DeleteOutline className="w-4 h-4 text-red-500"/>
 
-          <Box mt={2} display="flex" justifyContent="space-between" alignItems="center" width="100%" gap={1}>
-            <Box display="flex" alignItems="center" gap={1}>
-              <PersonIcon fontSize="small" sx={{ color: 'text.secondary' }} />
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{
-                  maxWidth: 150,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis'
-                }}
-              >
+              </button>
+            </div>
+          </div>
+
+
+          <div className="flex justify-between items-center gap-2 mt-auto">
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <PersonIcon className="w-4 h-4 text-gray-400 flex-shrink-0" />
+              <span className="text-sm text-gray-600 truncate max-w-[150px]">
                 {userName}
-              </Typography>
-            </Box>
-            <Chip
-              label={todo.completed ? 'Completada' : 'Pendiente'}
-              size="small"
-              color={todo.completed ? 'success' : 'warning'}
-              sx={{ height: 24, minWidth: 90 }}
-            />
-          </Box>
-        </CardContent>
-      </MuiCard>
-
+              </span>
+            </div>
+            
+            <span 
+              className={`px-3 py-1 rounded-full text-xs font-medium min-w-[90px] text-center ${
+                todo.completed 
+                  ? 'bg-green-100 text-green-800' 
+                  : 'bg-amber-100 text-amber-800'
+              }`}
+            >
+              {todo.completed ? 'Completada' : 'Pendiente'}
+            </span>
+          </div>
+        </div>
+      </div>
 
       <TodoModal
         open={modalConfig.open}

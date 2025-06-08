@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import TodoList from '../TodoList';
@@ -33,6 +33,13 @@ const MainLayout = ({ error, onRefresh, onToggleApi, onClearError }) => {
       </main>
     </div>
   );
+};
+
+MainLayout.propTypes = {
+  error: PropTypes.string,
+  onRefresh: PropTypes.func,
+  onToggleApi: PropTypes.func.isRequired,
+  onClearError: PropTypes.func,
 };
 
 export default MainLayout;

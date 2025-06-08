@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import MainLayout from './components/layout/MainLayout';
 import { useStore } from './store/todoStore';
+import LoadingOverlay from './components/common/LoadingOverlay';
 
 function App() {
   const fetchTodos = useStore(state => state.fetchTodos);
@@ -18,11 +19,7 @@ function App() {
 
 
   if (initialLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <span className="text-xl font-semibold">Cargando tareas...</span>
-      </div>
-    );
+  <LoadingOverlay/>
   }
 
   return (

@@ -1,12 +1,6 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Typography,
-  Button,
-  Chip,
-  Divider
-} from '@mui/material';
+import { Button, Chip, Divider } from '@mui/material';
 import { CloseRounded, Person as PersonIcon } from '@mui/icons-material';
 import { useStore, getUserName } from '../store/todoStore';
 
@@ -20,37 +14,34 @@ const TodoDetail = ({ todo, onClose }) => {
 
   return (
     <>
-      <Box display="flex" justifyContent="flex-end">
-        <Button onClick={onClose}>
-          <CloseRounded />
+      <div className="flex justify-end">
+        <Button onClick={onClose} className="!min-w-0 !p-1">
+          <CloseRounded className=" text-primary-300 hover:bg-primary-100 rounded-full" />
         </Button>
-      </Box>
-      <Typography variant="h5" component="h2" gutterBottom>
+      </div>
+      
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">
         {todo.title}
-      </Typography>
+      </h2>
 
-      <Divider sx={{ my: 2 }} />
+      <Divider className="!my-4" />
 
-      <Box sx={{ mb: 3 }} display="flex"  justifyContent={"space-between"} alignItems="center">
-        <Box display="flex" alignItems="center" gap={1} mb={2}>
-          <PersonIcon fontSize="small" sx={{ color: 'text.secondary' }} />
-          <Typography color="text.secondary">
+      <div className="mb-6 flex justify-between items-center">
+        <div className="flex items-center gap-2 mb-2">
+          <PersonIcon fontSize="small" className="text-gray-500" />
+          <span className="text-gray-600">
             Asignada a: {userName}
-          </Typography>
-        </Box>
+          </span>
+        </div>
 
-        <Box  gap={1} mb={2}>
+        <div className="mb-2">
           <Chip
             label={todo.completed ? 'Completada' : 'Pendiente'}
             color={todo.completed ? 'success' : 'warning'}
             size="small"
           />
-          
-        </Box>
-
-      </Box>
-
-
+        </div>
+      </div>
     </>
   );
 };

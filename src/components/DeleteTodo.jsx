@@ -1,9 +1,4 @@
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Typography,
-  Button,
-} from '@mui/material';
 import { useStore } from '../store/todoStore';
 import { CloseRounded } from '@mui/icons-material';
 
@@ -16,40 +11,36 @@ const DeleteTodo = ({ todo, onClose }) => {
 
   return (
     <>
-      <Box display="flex" justifyContent="flex-end">
-
-        <Button onClick={onClose}>
-          <CloseRounded />
-        </Button>
-      </Box>
-      <Box display="flex" justifyContent="center" alignItems="center" mb={2} flexDirection={'column'}>
-        <Typography variant="h6" component="h2" gutterBottom textAlign={'center'}>
+      <div className="flex justify-end">
+        <button 
+          onClick={onClose}
+          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+        >
+          <CloseRounded  className=" text-primary-300 hover:bg-primary-100 rounded-full"/>
+        </button>
+      </div>
+      
+      <div className="flex justify-center items-center mb-8 flex-col">
+        <h2 className="text-xl font-medium mb-4 text-center">
           Esta acción eliminará la tarea
-        </Typography>
-        <Typography variant="p" component="h2"  gutterBottom>
+        </h2>
+        
+        <p className="mb-4 font-medium text-gray-800">
           {todo.title}
-        </Typography>
+        </p>
 
-        <Typography variant="p" component="h2" gutterBottom>
+        <p className="mb-6 text-gray-700">
           ¿Quieres continuar?
-        </Typography>
+        </p>
 
-        <Button
+        <button
           type="submit"
-          variant="contained"
-          fullWidth
-          color='error'
-          sx={{ mt: 2, borderRadius: 6 , textTransform: 'none', }}
-          disabled={false}
           onClick={handleDelete}
+          className=" bg-red-500 hover:bg-red-600 text-white font-medium py-3 px-10 rounded-3xl transition-colors mt-2 normal-case"
         >
           Eliminar tarea
-        </Button>
-
-      </Box>
-
-
-
+        </button>
+      </div>
     </>
   );
 };

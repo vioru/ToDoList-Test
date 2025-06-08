@@ -5,14 +5,15 @@ const LoadingOverlay = ({ loading }) => {
   if (!loading) return null;
 
   return (
-    <Box 
-      display="flex" 
-      justifyContent="center" 
-      alignItems="center" 
-      p={4}
-    >
-      <CircularProgress />
-    </Box>
+
+
+    
+    <div className="flex items-center justify-center min-h-screen">
+        <span className="text-xl font-semibold">Cargando tareas...</span>
+              <CircularProgress />
+      </div>
+
+ 
   );
 };
 

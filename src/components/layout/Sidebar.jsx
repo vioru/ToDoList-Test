@@ -1,22 +1,15 @@
-import {
-  Drawer,
-  Divider,
-  Box,
-  Typography,
-  Button,
-} from '@mui/material';
+import { Drawer, Divider, Button } from '@mui/material';
 import { useStore } from '../../store/todoStore';
 import FilterButtons from '../filters/FilterButtons';
-import SelectUSers from '../filters/SelectUsers';
+import SelectUsers from '../filters/SelectUsers';
 
-const Sidebar = ({ }) => {
+const Sidebar = ({ onToggleApi }) => {
   const todos = useStore(state => state.todos);
   const setFilter = useStore(state => state.setFilter);
   const users = useStore(state => state.users);
   const selectedUserId = useStore(state => state.selectedUserId);
   const setSelectedUserId = useStore(state => state.setSelectedUserId);
   const selectedUser = users.find(u => u.id === selectedUserId);
-
 
   const filteredByUser = selectedUserId
     ? todos.filter(todo => todo.userId === selectedUserId)
@@ -27,7 +20,6 @@ const Sidebar = ({ }) => {
     completed: filteredByUser.filter(todo => todo.completed).length,
     active: filteredByUser.filter(todo => !todo.completed).length
   };
-
 
   return (
     <Drawer
@@ -42,73 +34,57 @@ const Sidebar = ({ }) => {
         },
       }}
     >
-
-
-      <Box sx={{ p: 3 }}>
+      <div className="p-6">
         <div>
-
-          <Typography variant="h4">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
             TaskFlow
-          </Typography>
-          <Button variant="contained"
-            sx={{
-              borderRadius: '25px',
-              backgroundColor: 'transparent',
-              color: 'text.primary',
-              boxShadow: 'none',
-              p: 0,
-              my: 1,
-              '&:hover': { backgroundColor: 'transparent', boxShadow: 'none' },
-              textTransform: 'none',
-              textDecoration: 'underline',
-            }}
+          </h1>
+          
+          <Button 
+            variant="text"
+            className="!rounded-full !bg-transparent !text-primary-500 !shadow-none !p-0 !my-2 hover:!bg-transparent hover:!shadow-none !normal-case !underline"
             onClick={() => {
               setFilter('all');
               setSelectedUserId(null);
+
             }}
           >
             Borrar filtros
           </Button>
-          <div>
-            <Typography variant="overline" color="text.primary" sx={{ textTransform: 'none', fontWeight: 'bold', fontSize: '1rem' }}>
+          
+          <div className="mt-4">
+            <h3 className="text-base font-bold text-gray-800 mb-1">
               Resumen de Tareas
-              {selectedUserId && (
-                <Typography variant="caption" display="block" color="text.secondary">
-                  Usuario: {selectedUser ? selectedUser.name : 'Usuario Desconocido'}
-                </Typography>
-              )}
-            </Typography>
-            <Box sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              mt: 1,
-              bgcolor: 'background.paper',
-              borderRadius: 1
-            }}>
-              <Typography variant="body2">
+            </h3>
+            {selectedUserId && (
+              <p className="text-sm text-gray-500 mb-2">
+                Usuario: {selectedUser ? selectedUser.name : 'Usuario Desconocido'}
+              </p>
+            )}
+            
+            <div className="flex justify-between mt-2 bg-white p-3 rounded-lg">
+              <span className="text-sm text-gray-600">
                 Completadas: {stats.completed}
-              </Typography>
-              <Typography variant="body2">
+              </span>
+              <span className="text-sm text-gray-600">
                 Pendientes: {stats.active}
-              </Typography>
-            </Box>
+              </span>
+            </div>
           </div>
-
         </div>
-
-
-
-      </Box>
+      </div>
 
       <Divider />
-      <SelectUSers />
+      <SelectUsers />
 
       <Divider />
       <FilterButtons />
-
-
     </Drawer>
   );
+};
+
+Sidebar.propTypes = {
+  onToggleApi: PropTypes.func,
 };
 
 export default Sidebar;
