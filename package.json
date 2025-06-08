@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest run --max-workers=1"
+    "test": "vitest run --no-file-parallelism --pool=forks --poolOptions.forks.maxForks=1",
+    "test:watch": "vitest --no-file-parallelism --pool=forks --poolOptions.forks.maxForks=1"
 
   },
   "dependencies": {

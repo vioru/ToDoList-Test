@@ -6,15 +6,15 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    open: true 
+    open: true
   },
-   test: {
+  test: {
     globals: true,
-    environment: 'jsdom', 
-    setupFiles: './src/setupTests.js',
+    environment: 'jsdom',
     exclude: ['node_modules', 'dist'],
-        deps: {
-      inline: ['@mui/material', '@mui/icons-material'] 
-    }
+    maxConcurrency: 1,
+    deps: {
+      external: ['@mui/icons-material'],
+    },
   },
 })
