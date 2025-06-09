@@ -62,6 +62,8 @@ const FilterList = () => {
 
   return (
     <div className="px-4 space-y-2 mt-3">
+      <h3 className="text-base font-bold text-gray-800 mb-2">
+        Filtrar por estado </h3>
       {filters.map(({ id, label, icon, count, colorClasses }) => (
         <button
           key={id}

@@ -10,7 +10,7 @@ const SelectUsers = () => {
 
     return (
         <div className="p-6 ">
-            <h3 className="text-base font-bold text-gray-800 mb-3 uppercase tracking-wide">
+            <h3 className="text-base font-bold text-gray-800 mb-3 tracking-wide">
                 Filtrar por Usuario
             </h3>
             
