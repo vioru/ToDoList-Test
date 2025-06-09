@@ -73,7 +73,7 @@ const Sidebar = ({ onToggleApi }) => {
             
             <div className="flex justify-between mt-2 bg-white p-3 rounded-lg">
               <span className="text-sm text-gray-600">
-                Completadas: {stats.completed}
+                Finalizadas: {stats.completed}
               </span>
               <span className="text-sm text-gray-600">
                 Pendientes: {stats.active}

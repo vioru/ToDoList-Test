@@ -36,7 +36,7 @@ const TodoDetail = ({ todo, onClose }) => {
 
         <div className="mb-2">
           <Chip
-            label={todo.completed ? 'Completada' : 'Pendiente'}
+            label={todo.completed ? 'Finalizada' : 'Pendiente'}
             color={todo.completed ? 'success' : 'warning'}
             size="small"
           />

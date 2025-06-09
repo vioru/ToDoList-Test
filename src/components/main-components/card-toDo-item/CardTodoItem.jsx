@@ -137,7 +137,7 @@ const CardTodoItem = ({ todo }) => {
                   : 'bg-amber-100 text-amber-800'
               }`}
             >
-              {todo.completed ? 'Completada' : 'Pendiente'}
+              {todo.completed ? 'Finalizada' : 'Pendiente'}
             </span>
           </div>
         </div>

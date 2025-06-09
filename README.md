@@ -8,7 +8,7 @@ Una aplicación de gestión de tareas construida con React, Material-UI y Zustan
 Gestión completa de tareas: Crear, editar, completar y eliminar tareas
 Asignación de usuarios: Asignar tareas a diferentes usuarios
 Búsqueda avanzada: Buscar tareas por título
-Filtros inteligentes: Filtrar por estado (todas, pendientes, completadas) y usuario
+Filtros inteligentes: Filtrar por estado (todas, pendientes, Finalizadas) y usuario
 
 Diseño responsivo: Interfaz adaptable a diferentes dispositivos
 Persistencia local: Los datos se guardan automáticamente en localStorage

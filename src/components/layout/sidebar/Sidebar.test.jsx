@@ -88,7 +88,7 @@ describe('Sidebar Component', () => {
   });
 
 
-  it('deberia mostrar la cantidad de tareas completas o pendientes filtrando por usuaro', () => {
+  it('deberia mostrar la cantidad de tareas finalizadas o pendientes filtrando por usuaro', () => {
     useStore.mockImplementation((selector) => {
       const mockState = {
         todos: mockTodos,
@@ -109,7 +109,7 @@ describe('Sidebar Component', () => {
     render(<Sidebar onToggleApi={mockOnToggleApi} />);
     
     expect(screen.getByText('Usuario: Juan Pérez')).toBeInTheDocument();
-    expect(screen.getByText('Completadas: 1')).toBeInTheDocument();
+    expect(screen.getByText('Finalizadas: 1')).toBeInTheDocument();
     expect(screen.getByText('Pendientes: 1')).toBeInTheDocument();
   });
 

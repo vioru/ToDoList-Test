@@ -49,7 +49,7 @@ const FilterList = () => {
     },
     {
       id: 'completed',
-      label: 'Completadas',
+      label: 'Finalizadas',
       icon: <CheckCircleOutline className="text-xl" />,
       count: stats.completed,
       colorClasses: {
