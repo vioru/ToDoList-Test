@@ -35,6 +35,7 @@ npm o yarn como gestor de paquetes
 1. Clonar el repositorio
 git clone 
 cd todo-app
+https://github.com/vioru/ToDoList-Test.git
 
 2. Instalar dependencias
 # Con npm
